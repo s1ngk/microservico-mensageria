@@ -1,5 +1,6 @@
 package com.ms.user.controllers;
 
+import com.ms.user.controllers.exception.EmailAlreadyExistsException;
 import com.ms.user.dtos.UserRecordDto;
 import com.ms.user.models.UserModel;
 import com.ms.user.services.UserService;
@@ -16,15 +17,21 @@ public class UserController {
 
     final UserService userService;
 
-    public UserController(UserService userService){
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping("/users")
     public ResponseEntity<UserModel> saveUser(@RequestBody @Valid UserRecordDto userRecordDto) {
-        var userModel = new UserModel();
-        BeanUtils.copyProperties(userRecordDto, userModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userModel));
+        try {
+            var userModel = new UserModel();
+            BeanUtils.copyProperties(userRecordDto, userModel);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userModel));
+        } catch (EmailAlreadyExistsException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .header("Error-Message", ex.getMessage())
+                    .build();
+        }
     }
 
 }

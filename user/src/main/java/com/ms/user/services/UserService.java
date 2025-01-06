@@ -1,5 +1,6 @@
 package com.ms.user.services;
 
+import com.ms.user.controllers.exception.EmailAlreadyExistsException;
 import com.ms.user.models.UserModel;
 import com.ms.user.producers.UserProducer;
 import com.ms.user.repositories.UserRepository;
@@ -17,10 +18,18 @@ public class UserService {
         this.userProducer = userProducer;
     }
 
+    public boolean isEmailExists(String email){
+        return userRepository.existsByEmail(email);
+    }
+
     @Transactional
     public UserModel save(UserModel userModel){
-        userModel = userRepository.save(userModel);
-        userProducer.publishMessageEmail(userModel);
-        return userModel;
+        if (isEmailExists((userModel.getEmail()))){
+            throw new EmailAlreadyExistsException("E-mail já cadastrado!");
+        } else {
+            userModel = userRepository.save(userModel);
+            userProducer.publishMessageEmail(userModel);
+            return userModel;
+        }
     }
 }

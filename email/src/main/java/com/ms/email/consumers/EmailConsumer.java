@@ -2,6 +2,7 @@ package com.ms.email.consumers;
 
 import com.ms.email.dtos.EmailRecordDto;
 import com.ms.email.models.EmailModel;
+import com.ms.email.repositories.EmailRepository;
 import com.ms.email.services.EmailService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeanUtils;
@@ -23,4 +24,5 @@ public class EmailConsumer {
         BeanUtils.copyProperties(emailRecordDto, emailModel);
         emailService.sendEmail(emailModel);
     }
+
 }
