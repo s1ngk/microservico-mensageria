@@ -1,8 +1,10 @@
 package com.ms.user.controllers;
 
 import com.ms.user.controllers.exception.EmailAlreadyExistsException;
+import com.ms.user.controllers.exception.UsernameAlreadyExistsException;
 import com.ms.user.dtos.UserRecordDto;
 import com.ms.user.models.UserModel;
+import com.ms.user.models.enums.UserRole;
 import com.ms.user.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -21,17 +23,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<UserModel> saveUser(@RequestBody @Valid UserRecordDto userRecordDto) {
-        try {
-            var userModel = new UserModel();
-            BeanUtils.copyProperties(userRecordDto, userModel);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userModel));
-        } catch (EmailAlreadyExistsException ex) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .header("Error-Message", ex.getMessage())
-                    .build();
-        }
-    }
+//    @PostMapping("/users")
+//    public ResponseEntity<UserModel> saveUser(@RequestBody @Valid UserRecordDto userRecordDto) {
+//        try {
+//            var userModel = new UserModel();
+//            BeanUtils.copyProperties(userRecordDto, userModel);
+//            userModel.setRole(UserRole.valueOf("USER"));
+//            return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userModel));
+//        } catch (EmailAlreadyExistsException | UsernameAlreadyExistsException ex) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .header("Error-Message", ex.getMessage())
+//                    .build();
+//        }
+//    }
 
 }

@@ -1,6 +1,7 @@
 package com.ms.user.services;
 
 import com.ms.user.controllers.exception.EmailAlreadyExistsException;
+import com.ms.user.controllers.exception.UsernameAlreadyExistsException;
 import com.ms.user.models.UserModel;
 import com.ms.user.producers.UserProducer;
 import com.ms.user.repositories.UserRepository;
@@ -26,10 +27,12 @@ public class UserService {
     public UserModel save(UserModel userModel){
         if (isEmailExists((userModel.getEmail()))){
             throw new EmailAlreadyExistsException("E-mail já cadastrado!");
-        } else {
-            userModel = userRepository.save(userModel);
-            userProducer.publishMessageEmail(userModel);
-            return userModel;
+        } else if (userRepository.existsByLogin(userModel.getUsername())) {
+            throw new UsernameAlreadyExistsException("Username '" + userModel.getUsername() + "' already exists.");
+            } else {
+                userModel = userRepository.save(userModel);
+                userProducer.publishMessageEmail(userModel);
+                return userModel;
         }
     }
 }
