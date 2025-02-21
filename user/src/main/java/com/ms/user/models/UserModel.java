@@ -25,9 +25,20 @@ public class UserModel implements UserDetails, Serializable {
     private String password;
     private String name;
     private String email;
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    //public UserModel(@NotBlank String login, @NotBlank String password, @NotBlank String name, @NotBlank @Email String email) {
+    //}
+
     public UserModel(@NotBlank String login, @NotBlank String password, @NotBlank String name, @NotBlank @Email String email) {
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+    }
+
+    public UserModel() {
     }
 
 
@@ -70,9 +81,12 @@ public class UserModel implements UserDetails, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_" + UserRole.ADMIN.getRole()),
+                    new SimpleGrantedAuthority("ROLE_" + UserRole.USER.getRole())
+            );
         } else {
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+            return List.of(new SimpleGrantedAuthority("ROLE_" + UserRole.USER.getRole()));
         }
     }
 

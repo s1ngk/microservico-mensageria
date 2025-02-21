@@ -1,8 +1,8 @@
 package com.ms.user.models.enums;
 
 public enum UserRole {
-    ADMIN("admin"),
-    USER("user");
+    ADMIN("ADMIN"),
+    USER("USER");
 
     private String role;
 
