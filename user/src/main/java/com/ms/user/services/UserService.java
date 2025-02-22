@@ -46,7 +46,7 @@ public class UserService {
         if (isEmailExists((userModel.getEmail()))){
             throw new EmailAlreadyExistsException("E-mail já cadastrado!");
         } else if (userRepository.existsByLogin(userModel.getUsername())) {
-            throw new UsernameAlreadyExistsException("Username '" + userModel.getUsername() + "' already exists.");
+            throw new UsernameAlreadyExistsException("Usuário '" + userModel.getUsername() + "' já existente.");
             } else if (isEmailValid(userModel.getEmail())) {
                 userModel = userRepository.save(userModel);
                 userProducer.publishMessageNewEmail(userModel);
