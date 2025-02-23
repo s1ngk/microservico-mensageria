@@ -1,0 +1,66 @@
+services:
+  email-service:
+    build: ./email
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=${EMAIL_SERVICE_SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${EMAIL_SERVICE_SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${EMAIL_SERVICE_SPRING_DATASOURCE_PASSWORD}
+      - SPRING_RABBITMQ_ADDRESSES=${EMAIL_SERVICE_SPRING_RABBITMQ_HOST}
+      - SPRING_MAIL_USERNAME=${EMAIL_SERVICE_SPRING_MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${EMAIL_SERVICE_SPRING_MAIL_PASSWORD}
+    depends_on:
+      - postgres-email
+    networks:
+      - app-network
+
+  user-service:
+    build: ./user
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=${USER_SERVICE_SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${USER_SERVICE_SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${USER_SERVICE_SPRING_DATASOURCE_PASSWORD}
+      - SPRING_RABBITMQ_ADDRESSES=${USER_SERVICE_SPRING_RABBITMQ_HOST}
+    depends_on:
+      - postgres-user
+    networks:
+      - app-network
+
+  postgres-email:
+    image: postgres:16
+    container_name: postgres-email
+    environment:
+      - POSTGRES_DB=${POSTGRES_EMAIL_DB}
+      - POSTGRES_USER=${POSTGRES_EMAIL_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_EMAIL_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-email-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  postgres-user:
+    image: postgres:16
+    container_name: postgres-user
+    environment:
+      - POSTGRES_DB=${POSTGRES_USER_DB}
+      - POSTGRES_USER=${POSTGRES_USER_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_USER_PASSWORD}
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-user-data:/var/lib/postgresql/data
+    networks:
+      - app-network 
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-email-data:
+  postgres-user-data:
