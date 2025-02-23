@@ -6,6 +6,7 @@ Este repositório consiste no desenvolvimento de uma aplicação utilizando a li
 - Java (Versão Mínima): 17
 - Build: Maven
 - Arquitetura: Microserviços
+- Conteinerização: Docker
 ### Bibiliotecas utilizadas ✔️
 - Spring Framework
 - Spring Security
@@ -13,6 +14,5 @@ Este repositório consiste no desenvolvimento de uma aplicação utilizando a li
 - Jakarta
 - e outras.
 ### Melhorias futuras ✔️
-- Validação de formato de senha
-- Testes unitários
 - Novos serviços
+- Testes unitários
