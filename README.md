@@ -6,6 +6,7 @@ Este repositório consiste no desenvolvimento de uma aplicação utilizando a li
 - Java (Versão Mínima): 17
 - Build: Maven
 - Arquitetura: Microserviços
+- Message Broker: RabbitMQ através de CloudAMQP
 - Conteinerização: Docker
 ### Bibiliotecas utilizadas ✔️
 - Spring Framework
