@@ -15,5 +15,8 @@ Este repositório consiste no desenvolvimento de uma aplicação utilizando a li
 - Jakarta
 - e outras.
 ### Melhorias futuras ✔️
-- Novos serviços
+- Isolar User Service e Authentication implementando um Authentication Service
+- Implementar Notification Service para expandir os métodos de comunicação se integrando a APIs externas(SMS etc)
+- Implementar um Audit Service para manter log de todas as ações no sistema
+- Possívelmente implementar outros serviços como Profile Service
 - Testes unitários
