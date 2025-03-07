@@ -3,7 +3,7 @@ Este repositório consiste no desenvolvimento de uma aplicação utilizando a li
 >A aplicação possui os serviços E-mail e User. Através do serviço User o usuário pode se cadastrar, realizar o login, alterar sua senha e seu e-mail, recebendo uma confirmação em seu e-mail cadastrado a cada etapa através do Serviço de E-mails.
 
 ### Especificações Técnicas ✔️
-- Java (Versão Mínima): 17
+- Java: 17
 - Build: Maven
 - Arquitetura: Microserviços
 - Message Broker: RabbitMQ através de CloudAMQP
